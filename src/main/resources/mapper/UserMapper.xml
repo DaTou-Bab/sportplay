@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tom.mapper.UserMapper">
+    <select id="getUserByMessage" resultType="com.tom.pojo.User">
+        select * from easyproject.easyuser where username=#{username} and password=#{password} and state =1;
+    </select>
+
+    <select id="getAllUser" resultType="com.tom.pojo.User">
+        select * from easyproject.easyuser
+        <if test="username != null">
+            where username like #{username}
+        </if>
+        limit #{pageStart},#{pageSize}
+    </select>
+
+    <select id="getUserCount" resultType="int">
+        select count(*) from easyproject.easyuser
+        <if test="username != null">
+            where username like #{username}
+        </if>
+    </select>
+    
+    <update id="updateState">
+        update easyproject.easyuser set state = #{state} where id = #{id};
+    </update>
+    
+    <insert id="addUser">
+        insert into easyproject.easyuser (username,password,email,role,state)
+        value (#{username},#{password},#{email},#{role},#{state})
+    </insert>
+
+    <delete id="deleteUser">
+        delete from easyproject.easyuser where id = #{id}
+    </delete>
+
+    <select id="getUpdateUser" resultType="com.tom.pojo.User">
+        select * from easyproject.easyuser where id = #{id}
+    </select>
+    
+    <update id="editUser" parameterType="com.tom.pojo.User">
+        update easyproject.easyuser
+        set username = #{username} , password = #{password} , email = #{email}
+        where id = #{id}
+    </update>
+</mapper>
